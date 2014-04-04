@@ -1,0 +1,41 @@
+---
+title: "master.rmd"
+author: Ben Marwick
+date: Tuesday, April 01, 2014
+output: html_document
+---
+
+Working with the images from 
+
+```{r}
+# get data
+dirs <- dir("C:\\Users\\marwick\\UW-Dropbox\\Dropbox\\Malony 's lithic scan data", full.names = TRUE)
+
+# get jpgs in each directory
+jpgs <- list.files(dirs, pattern = "jpg|JPG$", recursive = TRUE, full.names = TRUE)
+
+# how many jpgs per directory?
+count_jpgs <- sapply(dirs, function(i) length(list.files(i, pattern = "jpg|JPG$", full.names = TRUE)))
+
+# make easy to read data frame
+count_jpgs_df <- data.frame(dir = basename(dirs), 
+           count = unname(count_jpgs))
+
+# sort
+count_jpgs_df <- count_jpgs_df[with(count_jpgs_df, order(-count)),]
+
+# amongst the archaeological sites we have lots for
+# LR9, ME2 & 3, LR12, mtbehn surface 2, japi
+
+
+
+
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
