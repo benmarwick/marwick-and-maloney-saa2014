@@ -5,7 +5,7 @@ date: Tuesday, April 01, 2014
 output: html_document
 ---
 
-Working with the images from 
+Working with the images from LR9, ME2 & 3, LR12, mtbehn surface 2, japi
 
 ```{r}
 # get data
@@ -26,16 +26,14 @@ count_jpgs_df <- count_jpgs_df[with(count_jpgs_df, order(-count)),]
 
 # amongst the archaeological sites we have lots for
 # LR9, ME2 & 3, LR12, mtbehn surface 2, japi
-
-
-
-
 ```
 
-You can also embed plots, for example:
 
-```{r, echo=FALSE}
-plot(cars)
+
+```{r}
+# work on a subset of images to test oulining, the japi ones look pretty good
+testers <- jpgs[grep("japi", jpgs)]
+
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
