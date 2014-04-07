@@ -7,6 +7,8 @@ output: html_document
 
 Working with the images from LR9, ME2 & 3, LR12, mtbehn surface 2, japi
 
+need to edit filenames to make this work!
+
 ```{r}
 # get data
 dirs <- dir("C:\\Users\\marwick\\UW-Dropbox\\Dropbox\\Malony 's lithic scan data", full.names = TRUE)
