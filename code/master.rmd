@@ -10,8 +10,9 @@ Working with the images from LR9, ME2 & 3, LR12, mtbehn surface 2, japi
 need to edit filenames to make this work!
 
 ```{r}
-# get data
-dirs <- dir("C:\\Users\\marwick\\UW-Dropbox\\Dropbox\\Malony 's lithic scan data", full.names = TRUE)
+# get data, change this to your Dropbox location
+image_files <- "C:\\Users\\marwick\\UW-Dropbox\\Dropbox\\Malonys-lithic-scan-data"
+dirs <- dir(image_files, full.names = TRUE)
 
 # get jpgs in each directory
 jpgs <- list.files(dirs, pattern = "jpg|JPG$", recursive = TRUE, full.names = TRUE)
@@ -25,6 +26,7 @@ count_jpgs_df <- data.frame(dir = basename(dirs),
 
 # sort
 count_jpgs_df <- count_jpgs_df[with(count_jpgs_df, order(-count)),]
+count_jpgs_df
 
 # amongst the archaeological sites we have lots for
 # LR9, ME2 & 3, LR12, mtbehn surface 2, japi
@@ -33,9 +35,14 @@ count_jpgs_df <- count_jpgs_df[with(count_jpgs_df, order(-count)),]
 
 
 ```{r}
-# work on a subset of images to test oulining, the japi ones look pretty good
-testers <- jpgs[grep("japi", jpgs)]
+# get_outlines code needs to start in workind director near image files
+setwd(paste0(image_files, "/LR9-scans"))
 
-```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+# get_outlines code needs object which is called list_imgs
+# we'll use the LR9 images first
+list_imgs <- basename(jpgs[grep("LR9", jpgs)])
+
+# now run the get_outlines code and watch the outlines appear...
+source("F:/My Documents/My Papers/conferences/SAA2014/Marwick and Malony/code/get_outlines.r")
+

@@ -40,7 +40,7 @@
 # But he hasn't made a package, so we'll just source his functions
 # get functions from Claude's website (you can download this txt file
 # and source from your disk instead)
-source("code/claude_2008.r")
+source("F:/My Documents/My Papers/conferences/SAA2014/Marwick and Malony/code/claude_2008.r")
 # source("http://www.isem.cnrs.fr/IMG/txt/Rfunctions.txt") # author's copy
 # book errata: http://www.isem.univ-montp2.fr/recherche/teams/developmental-biology-and-evolution/staff/claudejulien/?lang=en
 # source("C:\\Users\\marwick\\Downloads\\Rfunctions.txt") # my local copy
@@ -54,10 +54,10 @@ library(pixmap)
 # withe underscores separating the terms, exactly like this:
 # "type_subtype_region_id.jpg 
 # we're going to use the 'type' bit as a grouping factor
-setwd("C:\\Users\\marwick\\UW-Dropbox\\Dropbox\\Malony 's lithic scan data/japi scans/")
+# setwd("C:\\Users\\marwick\\UW-Dropbox\\Dropbox\\Malony 's lithic scan data/japi scans/")
 
 # make a list of jpgs to work on
-list_imgs <- list.files(getwd(), pattern = ".jpg$") # not really a list, but a chr vector...
+# list_imgs <- list.files(getwd(), pattern = ".jpg$") # not really a list, but a chr vector...
 # inspect list to make sure nothing dodgy is there
 list_imgs
 # classify the list for later analysis, we'll just get the
@@ -75,12 +75,18 @@ fac
 library(dplyr)
 # find number of members of each class
 tbl <- summarise(group_by(fac, class), count = length(class))
-# which classes have <2 members?
+# if there are classes with <2 members, do this, otherwise skip
+ifelse(length(tbl$class < 2)
+# any classes have <2 members?
 dropme <- filter(tbl, count < 2)$class
+if(length(dropme) != 0){
 # drop that/those class(es) from the table 
 fac <- filter(fac, class != dropme)
 # and from the list of images (by -ve indexing)
 list_imgs <- list_imgs[-which(fac$class %in% dropme)]
+} else {
+  temp <- NULL  # do nothing
+}
 
 
 # Now loop over each jpg in the list to trace its outline
@@ -326,7 +332,7 @@ q[coords_D$fac$class== "blade"] <- green_trans
 q[coords_D$fac$class %in% c("unifacial", "retouched", "RT")] <- green_trans
 
 # Get the analysis of Fourier descriptors and make them componetes analysis
-eFourier ( coo_dorsal , norm = T, nb.h = 50, smooth.it = 100) - > efou_dorsal
+eFourier ( coo_dorsal , norm = T, nb.h = 50, smooth.it = 100) -> efou_dorsal
 pca_efou_dorsal <- pca ( efou_dorsal )
 
 # Now plot the morphospace with some transparent colors
