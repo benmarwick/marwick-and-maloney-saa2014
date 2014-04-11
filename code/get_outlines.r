@@ -76,7 +76,6 @@ library(dplyr)
 # find number of members of each class
 tbl <- summarise(group_by(fac, class), count = length(class))
 # if there are classes with <2 members, do this, otherwise skip
-ifelse(length(tbl$class < 2)
 # any classes have <2 members?
 dropme <- filter(tbl, count < 2)$class
 if(length(dropme) != 0){
