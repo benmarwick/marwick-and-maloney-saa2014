@@ -38,11 +38,35 @@ count_jpgs_df
 # get_outlines code needs to start in workind director near image files
 setwd(paste0(image_files, "/LR9-scans"))
 
-
 # get_outlines code needs object which is called list_imgs
 # we'll use the LR9 images first
 list_imgs <- basename(jpgs[grep("LR9", jpgs)])
 
 # now run the get_outlines code and watch the outlines appear...
-source("F:/My Documents/My Papers/conferences/SAA2014/Marwick and Malony/code/get_outlines.r")
+code_folder <- "F:/My Documents/My Papers/conferences/SAA2014/Marwick and Malony/code/"
+
+source(paste0(code_folder, "001_get_outlines.r"))
+
+# now check to see if any outlines have <500 coords and exclude those
+source(paste0(code_folder, "002_outlines_point_filter.r"))
+
+# now scale and center the outlines (returns two plots, check to see all looks ok)
+source(paste0(code_folder, "003_outlines_scale_center.r"))
+
+# now check to see how many harmonics we need to represent the shapes
+# probably best to run this line-by-line to iterate the number of harmonics
+# it's going to make lots of plots and take a long time if you just source it.
+paste0(code_folder, "004_outlines_inspect_harmonics.r")
+
+# now compute eliptical fourier analysis
+source(paste0(code_folder, "005_outlines_compute_EFA.r"))
+
+# now compute PCA - this will make lots of plots, choose carefully!
+# some customisation will be required for the coloured and transparent plots
+source(paste0(code_folder, "006_outlines_compute_PCA_and_plot.r"))
+
+# now compute MANOVA and tps - this will also make lots of plots
+source(paste0(code_folder, "007_outlines_MANOVA_tps.r"))
+
+
 
