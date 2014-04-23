@@ -2,6 +2,8 @@
 
 library(gdata)
 
+# ME3
+
 dat <- read.xls("C:\\Users\\marwick\\UW-Dropbox\\Dropbox\\Malonys-lithic-scan-data\\spreadsheet ME3.xls")
 str(dat)
 
@@ -39,6 +41,7 @@ ggplot(join, aes(PC1, GIUR)) +
 # Kimberley point correlation of PC1 with serration
 
 dat <- read.xls("C:\\Users\\marwick\\UW-Dropbox\\Dropbox\\Malonys-lithic-scan-data\\spreadsheet_allsites_EFA.xls")
+
 kimb <- dat[grepl("kimberleypoint", dat$Image_Name), ]
 
 str(coords_D)
@@ -74,3 +77,43 @@ ggplot(join, aes(PC1, n_serr)) +
   geom_point(size = 5) +
   geom_smooth(method = "lm") +
   theme_minimal(base_size = 16)
+
+# LR9
+
+LR9 <- dat[grepl("LR9", dat$Image_Name), ]
+# remove failed outlines
+LR9 <- LR9[!idx, ]
+
+str(coords_D)
+# first PC
+coords_D$li[,1]
+# second PC
+# first PC
+coords_D$li[,2]
+# check
+plot(coords_D$li[,1], coords_D$li[,2])
+
+PCs <- data.frame(name = row.names(coords_D$coe), 
+                  PC1 = coords_D$li[,1], 
+                  PC2 = coords_D$li[,2])
+
+LR9_subset <- LR9[LR9$Image_Name %in% intersect(LR9$Image_Name, PCs$name), ]
+PCs_subset <- PCs[PCs$name%in% intersect(LR9$Image_Name, PCs$name), ]
+LR9_subset[,5:ncol(LR9_subset)] <- sapply(LR9_subset[,5:ncol(LR9_subset)], as.numeric, as.character)
+cor.test(LR9_subset$GIUR, PCs_subset$PC1, use = "complete.obs")
+plot(LR9_subset$GIUR, PCs_subset$PC1)
+cor.test(LR9_subset$Medial_W_th, PCs_subset$PC1, use = "complete.obs")
+plot(LR9_subset$Medial_W_th, PCs_subset$PC1)
+cor.test(LR9_subset$elongation, PCs_subset$PC1, use = "complete.obs")
+plot(LR9_subset$elongation, PCs_subset$PC1)
+
+
+# plot
+join <- merge(LR9_subset, PCs_subset, by.x = "Image_Name", by.y = "name")
+library(ggplot2)
+ggplot(join, aes(PC1, elongation)) +
+  geom_point(size = 5) +
+  geom_smooth(method = "lm") +
+  theme_minimal(base_size = 16)
+
+

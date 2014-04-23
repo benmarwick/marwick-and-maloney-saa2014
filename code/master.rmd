@@ -43,7 +43,7 @@ count_jpgs_df
 
 ```{r}
 # get_outlines code needs to start in working director near image files
-folder <- "ethnographic-surface-assemblage-scans" # name of folder with images we want to work on
+folder <- "LR9-scans" # name of folder with images we want to work on
 
 setwd(paste0(image_files, "/", folder))
 

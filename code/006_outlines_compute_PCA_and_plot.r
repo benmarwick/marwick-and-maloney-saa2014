@@ -24,7 +24,7 @@ dudi.plot(coords_D, 1, ellipses=FALSE, neighbors=TRUE,
           title="PCA with Gabriel's neighboring graph")
 
 # this one looks good, I think:
-dudi.plot(coords_D, labels = TRUE, points=FALSE, boxes=FALSE, shapes=TRUE, pos.shp="li", clabel = 0.75, title="PCA with labels and reconstructed shapes")
+dudi.plot(coords_D, labels = FALSE, points=FALSE, boxes=FALSE, shapes=TRUE, pos.shp="li", clabel = 0.75, title="PCA with labels and reconstructed shapes")
 
 dudi.plot(coords_D, 1, points=FALSE, labels=TRUE,
           boxes=FALSE, shapes=FALSE,
