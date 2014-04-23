@@ -7,7 +7,7 @@ library(Momocs) # more details: http://www.vincentbonhomme.fr/Momocs/vignettes/A
 # many excellent uses here: http://biologyr.com/tag/momocs/ (some adapted here below)
 
 # convert outlines to 'Coo' format
-coords <- Coo(lapply(outlines_500, function(i) (simplify2array(i))))
+coords <- Coo(lapply(outlines_n, function(i) (simplify2array(i))))
 # center the coords
 coords_center <- Coo(lapply(coords@coo, coo.center))
 
@@ -15,9 +15,9 @@ coords_center <- Coo(lapply(coords@coo, coo.center))
 coords_scale <- Coo(lapply(coords_center@coo, function(i) coo.scale(i, 1)))
 
 # give the images their file names and types
-fac <- fac[-nm, ] # exclude names of shapes with <500 points
-slot(coords_scale, 'fac') <- fac
-slot(coords_scale, 'names') <- as.character(fac$nms)
+# fac <- fac[-nm, ] # exclude names of shapes with <n points
+slot(coords_scale, 'fac') <- fac_d
+slot(coords_scale, 'names') <- as.character(fac_d$nms)
 
 # quick plot
 panel(coords_scale,  borders="black", cols="grey90") # no names

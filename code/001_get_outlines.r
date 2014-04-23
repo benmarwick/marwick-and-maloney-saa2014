@@ -67,6 +67,7 @@ class <- unname(sapply(list_imgs, function(i) unlist(strsplit(i, split="_"))[1])
 nms <- gsub(".jpg", "", list_imgs)
 # make a data frame of classifications and names for later use
 fac <- data.frame(class = class, nms = nms)
+fac$class <- as.character(fac$class)
 # inspect to ensure it's going as planned...
 fac
 
@@ -77,15 +78,16 @@ library(dplyr)
 tbl <- summarise(group_by(fac, class), count = length(class))
 # if there are classes with <2 members, do this, otherwise skip
 # any classes have <2 members?
-dropme <- filter(tbl, count < 2)$class
+dropme <- as.character(filter(tbl, count < 2)$class)
 if(length(dropme) != 0){
 # drop that/those class(es) from the table 
-fac <- filter(fac, class != dropme)
 # and from the list of images (by -ve indexing)
 list_imgs <- list_imgs[-which(fac$class %in% dropme)]
 } else {
   temp <- NULL  # do nothing
 }
+# for use later, putting names and types onto coo objects
+fac_d <- fac[!(fac$class %in% dropme), ]
 
 
 # Now loop over each jpg in the list to trace its outline

@@ -15,10 +15,17 @@ image_files <- "C:\\Users\\marwick\\UW-Dropbox\\Dropbox\\Malonys-lithic-scan-dat
 dirs <- dir(image_files, full.names = TRUE)
 
 # get jpgs in each directory
-jpgs <- list.files(dirs, pattern = "jpg|JPG$", recursive = TRUE, full.names = TRUE)
+jpgs <- list.files(dirs, pattern = "jpg|JPG|jpeg|JPEG$", recursive = TRUE, full.names = TRUE)
+
+# Only need to do this once - get rid of spaces in the filenames that break the workflow
+# basename(jpgs)[!file.rename(from = basename(jpgs), to = gsub("\\s", "", basename(jpgs)))]
+# and change jpeg to jpg
+# basename(jpgs)[!file.rename(from = basename(jpgs), to = gsub("jpeg", "jpg", basename(jpgs)))]
+
+# basename(jpgs)[grepl("\\s", basename(jpgs))]
 
 # how many jpgs per directory?
-count_jpgs <- sapply(dirs, function(i) length(list.files(i, pattern = "jpg|JPG$", full.names = TRUE)))
+count_jpgs <- sapply(dirs, function(i) length(list.files(i, pattern = "jpg|JPG|jpeg|JPEG$", full.names = TRUE)))
 
 # make easy to read data frame
 count_jpgs_df <- data.frame(dir = basename(dirs), 
@@ -35,19 +42,23 @@ count_jpgs_df
 
 
 ```{r}
-# get_outlines code needs to start in workind director near image files
-setwd(paste0(image_files, "/LR9-scans"))
+# get_outlines code needs to start in working director near image files
+folder <- "ethnographic-surface-assemblage-scans" # name of folder with images we want to work on
+
+setwd(paste0(image_files, "/", folder))
 
 # get_outlines code needs object which is called list_imgs
-# we'll use the LR9 images first
-list_imgs <- basename(jpgs[grep("LR9", jpgs)])
 
-# now run the get_outlines code and watch the outlines appear...
+list_imgs <- basename(jpgs[grep(folder, jpgs)])
+
+# tell R where the R scripts are on your computer
 code_folder <- "F:/My Documents/My Papers/conferences/SAA2014/Marwick and Malony/code/"
 
+# now run the get_outlines code and watch the outlines appear...
 source(paste0(code_folder, "001_get_outlines.r"))
 
-# now check to see if any outlines have <500 coords and exclude those
+# now check to see if any outlines have <n coords and exclude those
+# watch for the message indicating how many outlines we have
 source(paste0(code_folder, "002_outlines_point_filter.r"))
 
 # now scale and center the outlines (returns two plots, check to see all looks ok)

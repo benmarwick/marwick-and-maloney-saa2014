@@ -1,7 +1,14 @@
 
 # compute Principal Component Analysis
 coords_D <- pca(coords_F)
-dimnames(coords_D$coe)[[1]] <- as.character(fac$nms)
+dimnames(coords_D$coe)[[1]] <- as.character(fac_d$nms)
+row.names(coords_D$li) <- as.character(fac_d$nms)
+# coords_D$fac <- as.factor(fac$class)
+
+# how much variation explained by each axes?
+summary(coords_D)
+screeplot(coords_D) #  represents the amount of inertia (usually variance) associated to each dimension.
+
 # plot
 dudi.plot(coords_D)
 # many other types of plot
@@ -9,44 +16,48 @@ dudi.plot(coords_D)
 # observe how to change the point labelling
 dudi.plot(coords_D, title="coords_D with no class but with ellipses")
 dudi.plot(coords_D, 1, title="coords_D with no class but with ellipses")
-dudi.plot(coords_D, 2, title="coords_D with no class but with ellipses")
 
 ## Now explore the _many_ kinds of plot that can be made with the PCA output...
 
 dudi.plot(coords_D, 1, ellipses=FALSE, neighbors=TRUE, 
           shapes=FALSE, star=FALSE, col.nei="black",
-          title="coords_D with Gabriel's neighboring graph")
+          title="PCA with Gabriel's neighboring graph")
 
 # this one looks good, I think:
-dudi.plot(coords_D, 1, labels=FALSE, points=FALSE, boxes=FALSE,
-          shapes=TRUE, pos.shp="li",  
-          title="coords_D with labels and reconstructed shapes")
+dudi.plot(coords_D, labels = TRUE, points=FALSE, boxes=FALSE, shapes=TRUE, pos.shp="li", clabel = 0.75, title="PCA with labels and reconstructed shapes")
 
 dudi.plot(coords_D, 1, points=FALSE, labels=TRUE,
           boxes=FALSE, shapes=FALSE,
-          title="coords_D with labels and ellipse")
+          title="PCA with labels and ellipse")
 
 dudi.plot(coords_D, 1, arrows=TRUE, dratio.arrow=0.2, shapes=FALSE,
-          title="coords_D with harmonic correlations")
+          title="PCA with harmonic correlations")
 
 # even more plots...
 morpho.space(coords_D)
 title("Default")
+
 morpho.space(coords_D, nr.shp=3, nc.shp=3,
              col.shp="#1A1A1A22", border.shp=NA, pch.pts=5)
 title("Custom nb of shapes")
+
 morpho.space(coords_D, pos.shp="li")
 title("Using the PC coordinates")
+
 morpho.space(coords_D, pos.shp="circle")
 title("A circle of shapes")
+
 morpho.space(coords_D, xlim=c(-0.25, 0.25), ylim=c(-0.2, 0.2),
              pos.shp=expand.grid(seq(-0.2, 0.2, 0.1) , seq(-0.2, 0.2, 0.1)),
              border.shp="black", col.shp="#00000011", col.pts="firebrick")
 title("Custom shape positions")
+
 morpho.space(coords_D, xax=3, yax=4)
 title("Morpho space on PC3 and PC4")
+
 morpho.space(coords_D, amp.shp=3)
 title("3 times magnif. differences")
+
 morpho.space(pca(coords_R), rotate.shp=pi/6)
 title("Using rFourier")
 
